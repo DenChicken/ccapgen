@@ -6,7 +6,10 @@ int main()
 {
     std::cout << "Hello, CMake!" << std::endl;
 
-    IPv4 ipv4;
+    IPv4 a;
+    IPv4 b;
+
+    //IPv4 c = a + b;
 
     return 0;
 }

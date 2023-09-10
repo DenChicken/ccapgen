@@ -1,16 +1,14 @@
-#include "basic/interfaces/iheader.h"
+#include "basic/abstract/aheader.h"
 
-class IPv4 : public IHeader
+class IPv4 : public AHeader
 {
 public:
     IPv4() = default;
-    virtual ~IPv4();
+    virtual ~IPv4() = default;
 
     virtual bool setField(const int fieldId, const void* fieldValue) override;
     virtual bool field(const int fieldId) const override;
-    virtual byte_t *getBytes() const override;
-    virtual bool setBytes(const byte_t* bytes) override;
 
 private:
-    virtual bool headerGenPriv() override;
+    bool headerGenPriv();
 };
