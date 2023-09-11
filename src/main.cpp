@@ -4,12 +4,10 @@
 
 int main()
 {
-    std::cout << "Hello, CMake!" << std::endl;
+    IPv4 a, b;
 
-    IPv4 a;
-    IPv4 b;
-
-    //IPv4 c = a + b;
+    //a + b;
+    (std::shared_ptr<const SharedSum>)a;
 
     return 0;
 }

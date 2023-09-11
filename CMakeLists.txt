@@ -9,9 +9,6 @@ project("ccapgen" VERSION 0.0.1 DESCRIPTION "C++ library for generation .pcap fi
 include_directories(include)
 add_executable(ccapgen 
     src/main.cpp
-    src/basic/abstract/asummand.cpp
-    src/basic/basedata.cpp
-    src/layers/l3/ipv4.cpp
 )
 
 set_target_properties(ccapgen PROPERTIES VERSION ${PROJECT_VERSION})
