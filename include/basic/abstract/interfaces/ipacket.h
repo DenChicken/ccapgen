@@ -15,4 +15,4 @@ public:
     virtual bool appendHeader(const IHeader& hdr) = 0;
 };
 
-#endif IPACKET_H
+#endif

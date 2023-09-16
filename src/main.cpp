@@ -7,7 +7,6 @@ int main()
     IPv4 a, b;
 
     //a + b;
-    (std::shared_ptr<const SharedSum>)a;
 
     return 0;
 }

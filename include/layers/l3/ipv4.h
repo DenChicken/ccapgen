@@ -1,36 +1,25 @@
 #ifndef IPv4_H
 #define IPv4_H
 
-#include "basic/abstract/interfaces/iheader.h"
-#include "basic/sharedsum.h"
+#include "basic/abstract/aheader.h"
 
-class IPv4 : public IHeader, public SharedSum
+class IPv4 : public AHeader
 {
 public:
-    virtual bool setField(uint8_t pos, byte_t* data) override {
-        return true;
-    }
-    virtual bool setFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) override {
-        return true;
-    }
-    virtual const byte_t* getBytes() const override {
-        return nullptr;
-    }
-    virtual const std::vector<byte_t>& getBytesVec() const override {
-        return std::vector<byte_t>();
-    }
-    virtual bool insertField(uint8_t pos, byte_t* data) override {
-        return true;
-    }
-    virtual bool insertFieldVec(uint8_t pos, const std::vector<byte_t> FieldVec) override {
-        return true;
-    }
-    virtual bool appendField(byte_t* data) override {
-        return true;
-    }
-    virtual bool appendFieldVec(byte_t* data) override {
-        return true;
-    }
+    // Inherited via AHeader
+    bool setField(uint8_t pos, byte_t* data) override;
+
+    bool setFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) override;
+
+    bool insertField(uint8_t pos, byte_t* data) override;
+
+    bool insertFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) override;
+
+    bool appendField(byte_t* data) override;
+
+    bool appendFieldVec(byte_t* data) override;
+
+    virtual const std::vector<byte_t>& convertFieldsToBytesArray() override;
 };
 
 #endif
