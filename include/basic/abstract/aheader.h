@@ -5,6 +5,18 @@
 #include "interfaces/idata.h"
 #include "basic/headercud.h"
 
+/*
+  One strange thing is to allow data to be passed between
+  classes in the order R->L and not get confused with the '|='.
+
+  You can still use '|=' or override "operatorX" and use 
+  parentheses to explicitly specify the order of "operatorX", 
+  but it's clearer this way
+*/
+#ifndef _op
+#define _op |=
+#endif
+
 class AHeader : public IHeader, public IData
 {
 public:
@@ -24,7 +36,7 @@ public:
     virtual const byte_t* field(fID_t fieldId) const override;
     virtual const std::vector<byte_t>& fieldVec(fID_t fieldId) const override;
 
-    AHeader& operator+(AHeader& hdr);
+    AHeader& operator _op(AHeader& hdr);
 
 private:
     /**

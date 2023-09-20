@@ -96,7 +96,7 @@ const std::vector<byte_t>& AHeader::fieldVec(fID_t fieldId) const
     return m_fields.at(fieldId);
 }
 
-AHeader& AHeader::operator+(AHeader& hdr)
+AHeader& AHeader::operator _op(AHeader& hdr)
 {
     if (hdr.m_CUD.getCUD().size() == 0) {
         hdr.generateCUD();
