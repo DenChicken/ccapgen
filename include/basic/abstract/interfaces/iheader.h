@@ -1,17 +1,17 @@
 #ifndef IHEADER_H
 #define IHEADER_H
 
-#include "basic/headercud.h"
-
 #include <vector>
 #include <map>
 
+#include "basic/basictypes.h"
+
 class IHeader
 {
-protected:
+public:
     typedef uint8_t fID_t;
 
-    HeaderCUD m_CUD;
+protected:
     std::map<fID_t, std::vector<byte_t>> m_fields;
 
 public:

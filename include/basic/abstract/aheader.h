@@ -3,6 +3,7 @@
 
 #include "interfaces/iheader.h"
 #include "interfaces/idata.h"
+#include "basic/headercud.h"
 
 class AHeader : public IHeader, public IData
 {
@@ -23,6 +24,8 @@ public:
     virtual const byte_t* field(fID_t fieldId) const override;
     virtual const std::vector<byte_t>& fieldVec(fID_t fieldId) const override;
 
+    AHeader& operator+(AHeader& hdr);
+
 private:
     /**
     * @brief Fills in the header fields with default values.
@@ -39,7 +42,13 @@ private:
     /**
     * @brief Converts header fields to a vector of bytes
     */
-    virtual const std::vector<byte_t>& convertFieldsToBytesVec() = 0;
+    virtual void convertFieldsToBytesVec() = 0;
+
+private:
+    HeaderCUD m_CUD;
+
+protected:
+    void generateCUD();
 };
 
 #endif

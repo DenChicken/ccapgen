@@ -7,7 +7,11 @@ bool AHeader::setBytes(byte_t* data, int num)
     {
         return false;
     }
-    memcpy(&m_bytes[0], data, num * sizeof(byte_t));
+
+    m_bytes.clear();
+    m_bytes.resize(num);
+    memcpy(m_bytes.data(), data, num * sizeof(byte_t));
+
     return true;
 }
 
@@ -31,7 +35,7 @@ const byte_t* AHeader::getBytes()
     }
     else 
     {
-        return convertFieldsToBytesVec().data();
+        this->convertFieldsToBytesVec();
     }
 
     return m_bytes.data();
@@ -49,6 +53,8 @@ bool AHeader::setField(fID_t fieldId, byte_t* data, int dataNum)
         return false;
     }
     
+    m_fields[fieldId].clear();
+    m_fields[fieldId].resize(dataNum);
     memcpy(m_fields[fieldId].data(), data, dataNum * sizeof(byte_t));
 
     this->fieldProcessing(fieldId);
@@ -65,7 +71,7 @@ bool AHeader::setFieldVec(fID_t fieldId, const std::vector<byte_t>& fieldVec)
 
     this->fieldProcessing(fieldId);
 
-    memcpy(m_fields[fieldId].data(), fieldVec.data(), fieldVec.size() * sizeof(byte_t));
+    m_fields[fieldId] = fieldVec;
 
     return true;
 }
@@ -88,6 +94,28 @@ const std::vector<byte_t>& AHeader::fieldVec(fID_t fieldId) const
     }
 
     return m_fields.at(fieldId);
+}
+
+AHeader& AHeader::operator+(AHeader& hdr)
+{
+    if (hdr.m_CUD.getCUD().size() == 0) {
+        hdr.generateCUD();
+    }
+    this->generateCUD();
+
+    m_CUD.addCUD(hdr.m_CUD.getCUD());
+
+    return *this;
+}
+
+void AHeader::generateCUD()
+{
+    if (!m_fields.empty())
+    {
+        this->convertFieldsToBytesVec();
+    }
+
+    m_CUD.setCUD(m_bytes);
 }
 
 
