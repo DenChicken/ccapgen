@@ -9,16 +9,16 @@
 class IHeader
 {
 protected:
+    typedef uint8_t fID_t;
+
     HeaderCUD m_CUD;
-    std::map<uint8_t, std::vector<byte_t>> m_fields;
+    std::map<fID_t, std::vector<byte_t>> m_fields;
 
 public:
-    virtual bool setField(uint8_t pos, byte_t* data) = 0;
-    virtual bool setFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) = 0;
-    virtual bool insertField(uint8_t pos, byte_t* data) = 0;
-    virtual bool insertFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) = 0;
-    virtual bool appendField(byte_t *data) = 0;
-    virtual bool appendFieldVec(byte_t* data) = 0;
+    virtual bool setField(fID_t fieldId, byte_t* data, int dataNum) = 0;
+    virtual bool setFieldVec(fID_t fieldId, const std::vector<byte_t>& FieldVec) = 0;
+    virtual const byte_t* field(fID_t fieldId) const = 0;
+    virtual const std::vector<byte_t>& fieldVec(fID_t fieldId) const = 0;
 };
 
 #endif

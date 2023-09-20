@@ -6,20 +6,13 @@
 class IPv4 : public AHeader
 {
 public:
+
+
+private:
     // Inherited via AHeader
-    bool setField(uint8_t pos, byte_t* data) override;
-
-    bool setFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) override;
-
-    bool insertField(uint8_t pos, byte_t* data) override;
-
-    bool insertFieldVec(uint8_t pos, const std::vector<byte_t>& FieldVec) override;
-
-    bool appendField(byte_t* data) override;
-
-    bool appendFieldVec(byte_t* data) override;
-
-    virtual const std::vector<byte_t>& convertFieldsToBytesArray() override;
+    void setDefaultFields() override;
+    void fieldProcessing(fID_t fieldId) override;
+    const std::vector<byte_t>& convertFieldsToBytesVec() override;
 };
 
 #endif
