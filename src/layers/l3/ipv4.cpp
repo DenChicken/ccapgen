@@ -17,6 +17,11 @@ void IPv4::fieldProcessing(fID_t fieldId)
 
 void IPv4::convertFieldsToBytesVec()
 {
+    if (m_fields.empty())
+    {
+        return;
+    }
+
     std::map<fID_t, std::vector<byte_t>>::iterator it;
     for (it = m_fields.begin(); it != m_fields.end(); ++it)
     {

@@ -12,38 +12,48 @@ bool AHeader::setBytes(byte_t* data, int num)
     m_bytes.resize(num);
     memcpy(m_bytes.data(), data, num * sizeof(byte_t));
 
+    m_fields.clear();
+    this->generateCUD();
+
     return true;
 }
 
-void AHeader::setBytesVec(const std::vector<byte_t>& bytesVec) 
+void AHeader::setBytes(const std::vector<byte_t>& bytesVec) 
 {
     m_bytes = bytesVec;
+
+    m_fields.clear();
+    this->generateCUD();
 }
 
-const byte_t* AHeader::getBytes() 
+void AHeader::bytes(byte_t* retData, int num)
 {
-    if (m_fields.empty()) 
+    if (retData == nullptr)
     {
-        if (m_bytes.empty()) 
-        {
-            return nullptr;
-        }
-        else 
-        {
-            return m_bytes.data();
-        }
-    }
-    else 
-    {
-        this->convertFieldsToBytesVec();
+        return;
     }
 
-    return m_bytes.data();
+    this->convertFieldsToBytesVec();
+    if (m_bytes.empty())
+    {
+        retData = nullptr;
+        return;
+    }
+
+    memcpy(retData, m_bytes.data(), sizeof(byte_t) * num);
 }
 
-const std::vector<byte_t>& AHeader::getBytesVec() const 
+void AHeader::bytes(std::vector<byte_t>& retVec)
 {
-    return m_bytes;
+    this->convertFieldsToBytesVec();
+    if (m_bytes.empty())
+    {
+        return;
+    }
+
+    retVec.clear();
+
+    std::copy(m_bytes.begin(), m_bytes.end(), std::back_inserter(retVec));
 }
 
 bool AHeader::setField(fID_t fieldId, byte_t* data, int dataNum)
@@ -62,7 +72,7 @@ bool AHeader::setField(fID_t fieldId, byte_t* data, int dataNum)
     return true;
 }
 
-bool AHeader::setFieldVec(fID_t fieldId, const std::vector<byte_t>& fieldVec)
+bool AHeader::setField(fID_t fieldId, const std::vector<byte_t>& fieldVec)
 {
     if (fieldVec.empty() || m_fields.find(fieldId) == m_fields.end())
     {
@@ -76,27 +86,30 @@ bool AHeader::setFieldVec(fID_t fieldId, const std::vector<byte_t>& fieldVec)
     return true;
 }
 
-const byte_t* AHeader::field(fID_t fieldId) const
+void AHeader::field(fID_t fieldId, byte_t* retF, int num) const
 {
-    if (m_fields.find(fieldId) == m_fields.end())
+    if (retF == nullptr || m_fields.empty() || fieldId >= m_fields.size())
     {
-        return nullptr;
+        retF = nullptr;
+        return;
     }
 
-    return m_fields.at(fieldId).data();
+    memcpy(retF, m_fields.at(fieldId).data(), sizeof(byte_t) * num);
 }
 
-const std::vector<byte_t>& AHeader::fieldVec(fID_t fieldId) const
+void AHeader::field(fID_t fieldId, std::vector<byte_t>& retFVec) const
 {
-    if (m_fields.find(fieldId) == m_fields.end())
+    if (m_fields.empty() || fieldId >= m_fields.size())
     {
-        return std::vector<byte_t>();
+        return;
     }
 
-    return m_fields.at(fieldId);
+    retFVec.clear();
+
+    std::copy(m_bytes.begin(), m_bytes.end(), std::back_inserter(retFVec));
 }
 
-AHeader& AHeader::operator _op(AHeader& hdr)
+AHeader& AHeader::operator _add(AHeader& hdr)
 {
     if (hdr.m_CUD.getCUD().size() == 0) {
         hdr.generateCUD();

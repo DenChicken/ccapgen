@@ -12,9 +12,9 @@ protected:
 
 public:
     virtual bool setBytes(byte_t* data, int num) = 0;
-    virtual void setBytesVec(const std::vector<byte_t> &bytesVec) = 0;
-    virtual const byte_t *getBytes() = 0;
-    virtual const std::vector<byte_t> &getBytesVec() const = 0;
+    virtual void setBytes(const std::vector<byte_t> &bytesVec) = 0;
+    virtual void bytes(byte_t* retData, int num) = 0;
+    virtual void bytes(std::vector<byte_t>& retVec) = 0;
 };
 
 #endif
