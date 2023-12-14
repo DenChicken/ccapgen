@@ -1,20 +1,43 @@
 #include <iostream>
+#include <cassert>
 
-#include "layers/l3/ipv4.h"
+#include "include/basic/basicdata.h"
+#include "include/basic/basicheader.h"
 
 int main()
 {
-    std::vector<byte_t> data1 { 1, 1, 1, 1 };
-    IPv4 a(data1);
+    BasicData data;
 
-    std::vector<byte_t> data2 { 2, 2, 2 };
-    IPv4 b(data2);
+    struct test
+    {
+        byte_t field1 = 0;
+        byte_t field2 = 0;
+        byte_t field3 = 0;
+    };
 
-    std::vector<byte_t> data3 { 3, 3, 3, 3, 3, 3 };
-    a _add b _add IPv4(data3) _add IPv4(std::vector<byte_t> { 9, 9, 9} );
+    test S{ 1, 2, 3 };
 
-    byte_t data[4];
-    a.bytes(data, 2);
+    data.setData(&S, sizeof(S));
+
+    test S1;
+    data.data(&S1, sizeof(S1));
+
+    assert(memcmp(&S, &S1, sizeof(S)) == 0);
+
+    try
+    {
+        data.setData(&S1, 0);
+    }
+    catch (const std::runtime_error &ex)
+    {
+        std::cout << "Hello\n" << ex.what();
+    }
+
+    BasicHeader header;
+    header.setField<test>(0, S1);
+
+    test S3;
+    header.field<test>(0, S3);
 
     return 0;
 }
