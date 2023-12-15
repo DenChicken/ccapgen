@@ -1,43 +1,15 @@
 #include <iostream>
 #include <cassert>
 
-#include "include/basic/basicdata.h"
+#include "include/basic/basicbitdata.h"
 #include "include/basic/basicheader.h"
 
 int main()
 {
-    BasicData data;
+    uint8_t* data = new uint8_t[1];
+    memset(data, 0xFF, 1);
+    uint_t data_bits = 2;
+    BasicBitData bit_data(data, data_bits);
 
-    struct test
-    {
-        byte_t field1 = 0;
-        byte_t field2 = 0;
-        byte_t field3 = 0;
-    };
-
-    test S{ 1, 2, 3 };
-
-    data.setData(&S, sizeof(S));
-
-    test S1;
-    data.data(&S1, sizeof(S1));
-
-    assert(memcmp(&S, &S1, sizeof(S)) == 0);
-
-    try
-    {
-        data.setData(&S1, 0);
-    }
-    catch (const std::runtime_error &ex)
-    {
-        std::cout << "Hello\n" << ex.what();
-    }
-
-    BasicHeader header;
-    header.setField<test>(0, S1);
-
-    test S3;
-    header.field<test>(0, S3);
-
-    return 0;
+    return EXIT_SUCCESS;
 }
